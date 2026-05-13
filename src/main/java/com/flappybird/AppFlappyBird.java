@@ -320,41 +320,125 @@ public class AppFlappyBird {
             if (t.x + (TUBERIA_ANCHO * 0.5f) < -1.3f) it.remove();
         }
     } 
-    
 
+    // Crear tuberia nueva en borde derecho con gap vertical aleatorio
+    private void spawnTuberia(){
+        float gapCentro = GAP_MIN_CENTRO + random.nextFloat() * (GAP_MAX_CENTRO - GAP_MIN_CENTRO);
+        tuberias.add(new Tuberia(1.2f, gapCentro));
+    }
 
+    /* Colision AABB simplificada
+       1. Si no hay overlap horizontal, no colisiona
+       2. Si hay overlap horizontal, colisiona si el pajaro esta fuera del gap */
+    private boolean colisionaConTuberia(Tuberia t){
+        float birdLeft = BIRD_X - (BIRD_ANCHO * 0.5f);
+        float birdRight = BIRD_X + (BIRD_ANCHO * 0.5f);
+        float birdBottom = birdY - (BIRD_ALTO * 0.5f);
+        float birdTop = birdY + (BIRD_ALTO * 0.5f);
+        float pipeLeft = t.x - (TUBERIA_ANCHO * 0.5f);
+        float pipeRight = t.x + (TUBERIA_ANCHO * 0.5f);
+        boolean overlapX = birdRight > pipeLeft && birdLeft < pipeRight;
 
+        if (!overlapX)  return false;
+        
+        float gapTop = t.gapCentroY + (GAP_ALTO * 0.5f);
+        float gapBottom = t.gapCentroY - (GAP_ALTO * 0.5f);
+        return birdTop > gapTop || birdBottom < gapBottom;
+    }
 
+    /* Render del frame
+       -Fondo
+       -Tuberias
+       -Pajaro
+       -Franja Central en game over  */
+    private void render(){
+        // Cielo
+        GL11.glClearColor(0.52f, 0.80f, 0.92f, 1.0f);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+        
+        // Activar pipeline y malla base
+        GL20.glUseProgram(programa);
+        GL30.glBindVertexArray(vao);
 
+        for (Tuberia t :  tuberias ){
+            // Calcular limites verticales del hueco
+            float gapTop = t.gapCentroY + (GAP_ALTO * 0.5f);
+            float gapBottom = t.gapCentroY - (GAP_ALTO * 0.5f);
 
+            // Dibujar(Tramo) parte superior de la tuberia
+            float altoSuperior = 1.0f - gapTop;
+            if (altoSuperior > 0.0f){
+                float yCentroSup = gapTop + (altoSuperior * 0.5f);
+                dibujarRectangulo(t.x, yCentroSup, TUBERIA_ANCHO, altoSuperior, 0.18f, 0.70f, 0.25f);
+            }
 
+            // Tramo parte inferior de la tuberia
+            float altoInferior = gapBottom + 1.0f;
+            if(altoInferior > 0.0f){
+                float yCentroInf = -1.0f + (altoInferior * 0.5f);
+                dibujarRectangulo(t.x, yCentroInf, TUBERIA_ANCHO, altoInferior, 0.18f, 0.70f, 0.25f);
+            }
+        }
 
+        // Dibujar el pajaro
+        dibujarRectangulo(BIRD_X, birdY, BIRD_ANCHO, BIRD_ALTO, 0.98f, 0.85f, 0.20f);
 
+        // Overlay simple de game over (Sin texto en frameBuffer)
+        if (gameOver) dibujarRectangulo(0.0f, 0.0f, 2.0f, 0.22f, 0.15f, 0.18f, 0.22f);
+    }
 
+    // Helper de dibujo parametrico de rectangulos usando el quad unitario
+    private void dibujarRectangulo(float x, float y, float ancho, float alto, float r, float g, float b){
+        // Traslacion del quad
+        GL20.glUniform2f(uOffsetLocation, x, y);
+        // Escalado del quad
+        GL20.glUniform2f(uScaleLocation, ancho, alto);
+        // Color del quad
+        GL20.glUniform3f(uColorLocation, r, g, b);
+        // Dibujar 2 triangulos
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
+    }
 
+    // Actualiza el feedback del titulo de la ventana con puntaje y estado
+    private void actualizarTitulo(){
+        String tituloBase = "Flappy Bird OPENGL | Puntos: "+puntaje;
+        if (!started) GLFW.glfwSetWindowTitle(window, tituloBase + " | SPACE para iniciar");
+        else if (gameOver) GLFW.glfwSetWindowTitle(window, tituloBase + " | GAME OVER - SPACE o R para reiniciar");
+        else GLFW.glfwSetWindowTitle(window, tituloBase);
+    }
 
+    /* Bucle principal
+      -Calcula dt
+      -Procesa input 
+      -Actualiza logica
+      -Renderiza
+      -Swap/Poll */
+    private void loop(){
+        float ultimoTiempo = (float)GLFW.glfwGetTime();
+        while (!GLFW.glfwWindowShouldClose(window)){
+            float ahora = (float)GLFW.glfwGetTime();
+            float dt = ahora - ultimoTiempo;
+            ultimoTiempo = ahora;
+            procesarInput();
+            actualizar(dt);
+            render();
 
+            // Presentar frame y leer eventos
+            GLFW.glfwSwapBuffers(window);
+            GLFW.glfwPollEvents();
+        }
+    }
 
+    // Limpieza de recursos OPENGL y GLFW
+    private void cleanup(){
+        GL30.glDeleteVertexArrays(vao);
+        GL15.glDeleteBuffers(vao);
+        GL20.glDeleteProgram(programa);
+        GLFW.glfwDestroyWindow(window);
+        GLFW.glfwTerminate();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // public static void main(String[] args) {
-    //     System.out.println("Hola mundo!");
-    // }
+    public static void main(String[] args) {
+        new AppFlappyBird().run();
+    }
 }
