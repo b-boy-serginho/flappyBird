@@ -55,7 +55,7 @@ public interface InterfaceFlappyBird {
     void dibujarTextoPixel(String texto, float cx, float cy, float pixelSize, float r, float g, float b);
     
     // Dibuja un numero centrado en (cx, cy) usando 7 segmentos (10x14 pixeles base)
-    void dibujarNumero(int num, float cx, float cy, float pixelSize, float r, float g, float b);
+    void dibujarNumero(int num, float x, float y, float size, float r, float g, float b);
     
     void dibujarDigito(int d, float x, float y, float s, float r, float g, float b);
     

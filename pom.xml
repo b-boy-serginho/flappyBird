@@ -23,10 +23,46 @@
       Puedes cambiar la clase desde la terminal sin tocar el POM:
         mvn exec:exec -DmainClass=com.graphics.OtraClase
     -->
-    <mainClass>com.flappybird.App</mainClass>
+    <mainClass>com.flappybird.AppFlappyBird</mainClass>
     <lwjgl.version>3.3.3</lwjgl.version>
     <joml.version>1.10.5</joml.version>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>linux</id>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>
+      </activation>
+      <properties>
+        <lwjgl.natives>natives-linux</lwjgl.natives>
+      </properties>
+    </profile>
+    <profile>
+      <id>windows</id>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+      <properties>
+        <lwjgl.natives>natives-windows</lwjgl.natives>
+      </properties>
+    </profile>
+    <profile>
+      <id>macos</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <lwjgl.natives>natives-macos</lwjgl.natives>
+      </properties>
+    </profile>
+  </profiles>
 
   <dependencies>
     <dependency>
@@ -78,30 +114,30 @@
       Si no incluyes la variante correcta para tu máquina, verás errores como
       "Failed to locate library: liblwjgl.so" o "Platform/architecture mismatch". -->
     
-    <!-- Dependencias nativas para Linux (sistema operativo actual) -->
+    <!-- Dependencias nativas (se seleccionan automáticamente según el SO) -->
     <dependency>
       <groupId>org.lwjgl</groupId>
       <artifactId>lwjgl</artifactId>
       <version>${lwjgl.version}</version>
-      <classifier>natives-linux</classifier>
+      <classifier>${lwjgl.natives}</classifier>
     </dependency>
     <dependency>
       <groupId>org.lwjgl</groupId>
       <artifactId>lwjgl-glfw</artifactId>
       <version>${lwjgl.version}</version>
-      <classifier>natives-linux</classifier>
+      <classifier>${lwjgl.natives}</classifier>
     </dependency>
     <dependency>
       <groupId>org.lwjgl</groupId>
       <artifactId>lwjgl-opengl</artifactId>
       <version>${lwjgl.version}</version>
-      <classifier>natives-linux</classifier>
+      <classifier>${lwjgl.natives}</classifier>
     </dependency>
     <dependency>
       <groupId>org.lwjgl</groupId>
       <artifactId>lwjgl-stb</artifactId>
       <version>${lwjgl.version}</version>
-      <classifier>natives-linux</classifier>
+      <classifier>${lwjgl.natives}</classifier>
     </dependency>
 
   </dependencies>
