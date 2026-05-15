@@ -1,0 +1,16 @@
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\AppFlappyBird.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\audio\SoundManager.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\engine\Renderer.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\engine\ShaderProgram.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\engine\Window.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\game\GameConstants.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\game\GameState.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\game\InputHandler.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\game\Pajaro.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\game\Tuberia.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\rendering\BackgroundRenderer.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\rendering\BirdRenderer.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\rendering\PipeRenderer.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\ui\HudRenderer.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\ui\PixelFont.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\ui\SevenSegmentDisplay.java
