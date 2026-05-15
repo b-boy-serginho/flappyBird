@@ -26,6 +26,10 @@ public class GameState {
     private float currentTiempoSpawn;
     private float bgOffset; // Desplazamiento para el fondo parallax
 
+    // Eventos del frame actual (para partículas y efectos)
+    private final List<float[]> eventosScore = new ArrayList<>();  // {x, y}
+    private final List<float[]> eventosMuerte = new ArrayList<>(); // {x, y}
+
     public GameState(Pajaro p1, Pajaro p2) {
         this.p1 = p1;
         this.p2 = p2;
@@ -95,9 +99,11 @@ public class GameState {
                 // Puntuar para cada pájaro si pasan la tubería
                 if (!p1.isGameOver() && t.intentarPuntuar(1)) {
                     p1.incrementarPuntaje();
+                    eventosScore.add(new float[]{ BIRD_X, p1.getY() });
                 }
                 if (!p2.isGameOver() && t.intentarPuntuar(2)) {
                     p2.incrementarPuntaje();
+                    eventosScore.add(new float[]{ BIRD_X, p2.getY() });
                 }
 
                 if (t.fueraDePantalla()) it.remove();
@@ -107,13 +113,21 @@ public class GameState {
 
     /** Lógica individual de física y colisión para un pájaro. */
     private void actualizarPajaro(Pajaro p, float dt) {
+        boolean estabaVivo = !p.isGameOver();
         p.actualizarFisica(dt);
+
+        // Detectar muerte por bordes (actualizarFisica puede matar al pájaro)
+        if (estabaVivo && p.isGameOver()) {
+            eventosMuerte.add(new float[]{ BIRD_X, p.getY() });
+            return;
+        }
         if (p.isGameOver()) return;
 
         // Colisión con tuberías
         for (Tuberia t : tuberias) {
             if (t.colisionaCon(p)) {
                 p.morir();
+                eventosMuerte.add(new float[]{ BIRD_X, p.getY() });
                 return;
             }
         }
@@ -145,4 +159,17 @@ public class GameState {
     public boolean isGameOver() { return isGameOver; }
     public int getNivelActual() { return nivelActual; }
     public float getBgOffset() { return bgOffset; }
+    public float getCurrentVelTuberias() { return currentVelTuberias; }
+
+    /** Eventos de puntuación del frame actual. Consumir después de procesar. */
+    public List<float[]> getEventosScore() { return eventosScore; }
+
+    /** Eventos de muerte del frame actual. Consumir después de procesar. */
+    public List<float[]> getEventosMuerte() { return eventosMuerte; }
+
+    /** Limpia los eventos del frame. Llamar después de procesarlos. */
+    public void limpiarEventos() {
+        eventosScore.clear();
+        eventosMuerte.clear();
+    }
 }
