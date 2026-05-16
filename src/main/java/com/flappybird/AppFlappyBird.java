@@ -20,6 +20,29 @@ import static com.flappybird.game.GameConstants.*;
  * Punto de entrada y orquestador del juego Flappy Bird multijugador.
  * Crea recursos, ejecuta el game loop y limpia al salir.
  */
+
+/*
+CONCEPTOS CLAVE:
+ *   - OpenGL: conjunto de funciones para dibujar en la pantalla usando la GPU.
+ *   - GLFW: biblioteca que crea la ventana y maneja teclado/ratón. OpenGL solo dibuja;
+ *     no crea ventanas, por eso usamos GLFW.
+ *   - GPU: tarjeta gráfica. Los "shaders" son pequeños programas que se ejecutan ahí.
+ *   - Shader: código que dice cómo transformar vértices (vertex shader) y qué color
+ *     dar a cada píxel (fragment shader). Se escriben en un lenguaje parecido a C (GLSL).
+ *   - Vértice: un punto en 3D (x, y, z). Un triángulo tiene 3 vértices.
+ *   - VAO/VBO: formas de guardar en la GPU los datos de los vértices (posiciones, etc.).
+     -Vertex Shader: procesa los vértices
+     -Fragment Shader: procesa los píxeles
+     -Uniform: variables globales accesibles por los shaders
+     -Callback: función que se ejecuta cuando ocurre un evento (ej: redimensionar ventana)
+     -Game Loop: bucle principal que se ejecuta mientras el juego está corriendo
+     -VSync: sincroniza el frame rate con la tasa de refresco de la pantalla
+     -vec2: vector de 2 componentes (x, y) -> coordenadas
+     -vec3: vector de 3 componentes (x, y, z) -> coordenadas 3D
+     -vec4: vector de 4 componentes (x, y, z, w) -> rgba (color)
+    -transform: matriz que representa una transformación geométrica (traslación, rotación, escala)
+
+    */
 public class AppFlappyBird {
 
     public static void main(String[] args) {
@@ -28,8 +51,10 @@ public class AppFlappyBird {
         ShaderProgram shader = new ShaderProgram();
         Renderer renderer = new Renderer(shader);
 
-        Pajaro p1 = new Pajaro(GLFW.GLFW_KEY_W, new float[]{0.98f, 0.85f, 0.20f}, "Amarillo");
-        Pajaro p2 = new Pajaro(GLFW.GLFW_KEY_UP, new float[]{0.20f, 0.85f, 0.98f}, "Cian");
+        // Jugadores (instanciación)
+        float distanciaPajaros = 0.2f;
+        Pajaro p1 = new Pajaro(-0.45f, GLFW.GLFW_KEY_W, new float[]{0.98f, 0.85f, 0.20f}, "Amarillo");
+        Pajaro p2 = new Pajaro(-0.45f + distanciaPajaros, GLFW.GLFW_KEY_UP, new float[]{0.20f, 0.85f, 0.98f}, "Cian");
 
         // Estado del juego e input
         GameState game = new GameState(p1, p2);

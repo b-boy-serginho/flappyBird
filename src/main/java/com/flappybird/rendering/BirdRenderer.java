@@ -70,7 +70,7 @@ public class BirdRenderer {
         float colaPx = colaOffsetX * cosA - colaOffsetY * sinA;
         float colaPy = colaOffsetX * sinA + colaOffsetY * cosA;
         renderer.drawTriangle(
-                BIRD_X + colaPx, p.getY() + colaPy,
+                p.getDistanciaPajaros() + colaPx, p.getY() + colaPy,
                 0.05f, 0.05f,
                 r * 0.7f, g * 0.7f, b * 0.7f,
                 angulo + 3.1415f); // Apunta hacia atrás
@@ -78,7 +78,7 @@ public class BirdRenderer {
         // =============================================
         // 2. CUERPO PRINCIPAL — Rectángulo del color del jugador
         // =============================================
-        renderer.drawRect(BIRD_X, p.getY(), BIRD_ANCHO, BIRD_ALTO, r, g, b, angulo);
+        renderer.drawRect(p.getDistanciaPajaros(), p.getY(), BIRD_ANCHO, BIRD_ALTO, r, g, b, angulo);
 
         // Detalle: barriga más clara en la parte inferior del cuerpo
         float barrigaOffsetX = 0.0f;
@@ -86,7 +86,7 @@ public class BirdRenderer {
         float barrigaPx = barrigaOffsetX * cosA - barrigaOffsetY * sinA;
         float barrigaPy = barrigaOffsetX * sinA + barrigaOffsetY * cosA;
         renderer.drawRect(
-                BIRD_X + barrigaPx, p.getY() + barrigaPy,
+                p.getDistanciaPajaros() + barrigaPx, p.getY() + barrigaPy,
                 BIRD_ANCHO * 0.7f, BIRD_ALTO * 0.4f,
                 Math.min(1.0f, r * 1.3f), Math.min(1.0f, g * 1.3f), Math.min(1.0f, b * 1.3f),
                 angulo);
@@ -100,13 +100,13 @@ public class BirdRenderer {
         float alaPx = alaOffsetX * cosA - alaOffsetY * sinA;
         float alaPy = alaOffsetX * sinA + alaOffsetY * cosA;
         renderer.drawRect(
-                BIRD_X + alaPx, p.getY() + alaPy,
+                p.getDistanciaPajaros() + alaPx, p.getY() + alaPy,
                 0.06f, 0.04f,
                 0.95f, 0.95f, 0.95f,
                 angulo);
         // Detalle interior del ala (línea más oscura)
         renderer.drawRect(
-                BIRD_X + alaPx, p.getY() + alaPy,
+                p.getDistanciaPajaros() + alaPx, p.getY() + alaPy,
                 0.05f, 0.015f,
                 0.8f, 0.8f, 0.8f,
                 angulo);
@@ -121,7 +121,7 @@ public class BirdRenderer {
 
         // Esclerótica (fondo blanco del ojo)
         renderer.drawRect(
-                BIRD_X + eyePx, p.getY() + eyePy,
+                p.getDistanciaPajaros() + eyePx, p.getY() + eyePy,
                 0.028f, 0.038f,
                 1.0f, 1.0f, 1.0f,
                 angulo);
@@ -138,7 +138,7 @@ public class BirdRenderer {
         float pupPx = pupilaShiftX * cosA - pupilaShiftY * sinA;
         float pupPy = pupilaShiftX * sinA + pupilaShiftY * cosA;
         renderer.drawRect(
-                BIRD_X + eyePx + pupPx, p.getY() + eyePy + pupPy,
+                p.getDistanciaPajaros() + eyePx + pupPx, p.getY() + eyePy + pupPy,
                 0.012f, 0.018f,
                 0.0f, 0.0f, 0.0f,
                 angulo);
@@ -149,7 +149,7 @@ public class BirdRenderer {
         float brilloPx = brilloShiftX * cosA - brilloShiftY * sinA;
         float brilloPy = brilloShiftX * sinA + brilloShiftY * cosA;
         renderer.drawRect(
-                BIRD_X + eyePx + brilloPx, p.getY() + eyePy + brilloPy,
+                p.getDistanciaPajaros() + eyePx + brilloPx, p.getY() + eyePy + brilloPy,
                 0.005f, 0.005f,
                 1.0f, 1.0f, 1.0f,
                 angulo);
@@ -163,7 +163,7 @@ public class BirdRenderer {
         float beakPy = beakOffsetX * sinA + beakOffsetY * cosA;
         // Pico superior (naranja)
         renderer.drawTriangle(
-                BIRD_X + beakPx, p.getY() + beakPy,
+                p.getDistanciaPajaros() + beakPx, p.getY() + beakPy,
                 0.045f, 0.025f,
                 1.0f, 0.55f, 0.0f,
                 angulo);
@@ -172,7 +172,7 @@ public class BirdRenderer {
         float beakLowPx = beakOffsetX * cosA - beakLowOffsetY * sinA;
         float beakLowPy = beakOffsetX * sinA + beakLowOffsetY * cosA;
         renderer.drawTriangle(
-                BIRD_X + beakLowPx, p.getY() + beakLowPy,
+                p.getDistanciaPajaros() + beakLowPx, p.getY() + beakLowPy,
                 0.04f, 0.018f,
                 0.9f, 0.4f, 0.0f,
                 angulo);

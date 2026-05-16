@@ -40,7 +40,7 @@ public class Window {
         // Cargar funciones OpenGL (debe ir antes de cualquier llamada GL)
         GL.createCapabilities();
 
-        // Configurar viewport inicial
+        // Configurar viewport inicial, se utiliza para definir el área de dibujo.
         GL11.glViewport(0, 0, width, height);
 
         // Callback de redimensionamiento: actualiza el viewport manteniendo aspect ratio
@@ -86,6 +86,8 @@ public class Window {
     }
 
     public void swapAndPoll() {
+         // Doble buffer: hemos dibujado en un buffer "oculto"; ahora lo mostramos en pantalla
+         // e intercambiamos. Así el usuario no ve líneas a medias.
         GLFW.glfwSwapBuffers(handle);
         GLFW.glfwPollEvents();
     }

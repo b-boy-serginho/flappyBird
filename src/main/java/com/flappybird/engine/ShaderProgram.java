@@ -11,6 +11,9 @@ import org.lwjgl.opengl.GL20;
 public class ShaderProgram {
     private int programId;
 
+    // --- vertexSrc: código GLSL del VERTEX SHADER ---
+    // Recibe la posición de cada vértice (aPos) y la asigna a gl_Position (salida estándar).
+    // "layout (location = 0) in vec3 aPos" = entrada en el canal 0, 3 floats (x, y, z).
     public ShaderProgram() {
         String vertexSrc = """
                 #version 330 core
@@ -36,6 +39,9 @@ public class ShaderProgram {
                 """;
 
         // Color solido por Objetos o Degradado
+        // --- fragmentSrc: código GLSL del FRAGMENT SHADER ---
+        // Define qué color poner en cada píxel. Recibe localY (pasado por el vertex shader)
+        // y usa un vec3 uniforme uColor (y uColor2 para degradado). "mix" mezcla los colores.
         String fragmentSrc = """
                 #version 330 core
                 uniform vec3 uColor;
