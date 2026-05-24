@@ -9,6 +9,7 @@ import com.flappybird.audio.SoundManager;
  */
 public class Pajaro {
     // Estado de posición y movimiento
+    private float distanciaPajaros; //Distacia de los 2 pajaros
     private float y;
     private float velY;
     private float alaTimer;
@@ -24,13 +25,15 @@ public class Pajaro {
     private final float[] color; // RGB
     private final String nombre;
 
-    public Pajaro(int jumpKey, float[] color, String nombre) {
+    public Pajaro(float distanciaPajaros, int jumpKey, float[] color, String nombre) {
+        this.distanciaPajaros = distanciaPajaros;
         this.jumpKey = jumpKey;
         this.color = color;
         this.nombre = nombre;
         reset();
     }
 
+    public float getDistanciaPajaros() { return distanciaPajaros;}
     /** Reinicia el estado del pájaro a los valores iniciales. */
     public void reset() {
         y = 0.0f;

@@ -11,6 +11,9 @@ import org.lwjgl.opengl.GL20;
 public class ShaderProgram {
     private int programId;
 
+    // --- vertexSrc: código GLSL del VERTEX SHADER ---
+    // Recibe la posición de cada vértice (aPos) y la asigna a gl_Position (salida estándar).
+    // "layout (location = 0) in vec3 aPos" = entrada en el canal 0, 3 floats (x, y, z).
     public ShaderProgram() {
         String vertexSrc = """
                 #version 330 core
@@ -36,6 +39,9 @@ public class ShaderProgram {
                 """;
 
         // Color solido por Objetos o Degradado
+        // --- fragmentSrc: código GLSL del FRAGMENT SHADER ---
+        // Define qué color poner en cada píxel. Recibe localY (pasado por el vertex shader)
+        // y usa un vec3 uniforme uColor (y uColor2 para degradado). "mix" mezcla los colores.
         String fragmentSrc = """
                 #version 330 core
                 uniform vec3 uColor;
@@ -97,3 +103,28 @@ public class ShaderProgram {
         GL20.glDeleteProgram(programId);
     }
 }
+
+ /*
+        ╔══════════════════════════════════════════════════════════════════════════╗
+        ║                  TABLA DE UNIFORMS DEL SHADER                           ║
+        ╠═══════════════╦══════════╦═══════════════════════════════════════════════╣
+        ║  Uniform       ║  Tipo   ║  Descripción                                 ║
+        ╠═══════════════╬══════════╬═══════════════════════════════════════════════╣
+        ║  uOffset       ║  vec2   ║  Posición (x,y) del objeto en NDC            ║
+        ║  uScale        ║  vec2   ║  Escala (ancho, alto) del objeto             ║
+        ║  uRotation     ║  float  ║  Rotación en radianes (0 = sin rotar)        ║
+        ║  uColor        ║  vec3   ║  Color principal RGB (0.0 a 1.0)             ║
+        ║  uColor2       ║  vec3   ║  Color secundario (solo para degradados)     ║
+        ║  uUseGradient  ║  int    ║  0 = color sólido, 1 = degradado vertical    ║
+        ╠═══════════════╩══════════╩═══════════════════════════════════════════════╣
+        ║                                                                          ║
+        ║  PERSONALIZACIÓN DEL VERTEX SHADER:                                      ║
+        ║  • Cambiar mat2 rot → mat3 para agregar skew/perspectiva                 ║
+        ║  • Agregar uniform float uTime para animaciones basadas en tiempo        ║
+        ║                                                                          ║
+        ║  PERSONALIZACIÓN DEL FRAGMENT SHADER:                                    ║
+        ║  • Cambiar mix() por smoothstep() para degradados no lineales            ║
+        ║  • Agregar uniform float uAlpha y usar fragColor.a para transparencia    ║
+        ║  • Agregar efectos: posterización, ruido, bordes suaves                  ║
+        ╚══════════════════════════════════════════════════════════════════════════╝
+    */

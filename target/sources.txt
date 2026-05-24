@@ -10,6 +10,7 @@ C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\game\Pajaro.java
 C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\game\Tuberia.java
 C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\rendering\BackgroundRenderer.java
 C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\rendering\BirdRenderer.java
+C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\rendering\ParticleSystem.java
 C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\rendering\PipeRenderer.java
 C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\ui\HudRenderer.java
 C:\Univ\Prog-grafica\flappyBird\src\main\java\com\flappybird\ui\PixelFont.java

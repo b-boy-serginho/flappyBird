@@ -31,10 +31,11 @@ public class InputHandler {
         // Input de cada jugador
         procesarSalto(state.getP1());
         procesarSalto(state.getP2());
+        procesarSalto(state.getP3());
 
         // Reiniciar con R (solo si el juego terminó para ambos)
         boolean rAhora = window.isKeyPressed(GLFW.GLFW_KEY_R);
-        if (rAhora && !prevR && state.isGameOver()) {
+        if (rAhora && !prevR && (state.isGameOver() || state.isVictoria())) {
             state.resetGame();
         }
         prevR = rAhora;
