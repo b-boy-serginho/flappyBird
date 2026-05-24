@@ -55,9 +55,10 @@ public class AppFlappyBird {
         float distanciaPajaros = 0.2f;
         Pajaro p1 = new Pajaro(-0.45f, GLFW.GLFW_KEY_W, new float[]{0.98f, 0.85f, 0.20f}, "Amarillo");
         Pajaro p2 = new Pajaro(-0.45f + distanciaPajaros, GLFW.GLFW_KEY_UP, new float[]{0.20f, 0.85f, 0.98f}, "Cian");
+        Pajaro p3 = new Pajaro(-0.45f + distanciaPajaros * 2, GLFW.GLFW_KEY_SPACE, new float[]{0.20f, 0.90f, 0.30f}, "Verde");
 
         // Estado del juego e input
-        GameState game = new GameState(p1, p2);
+        GameState game = new GameState(p1, p2, p3);
         InputHandler input = new InputHandler(window);
 
         // Renderers especializados
@@ -84,9 +85,10 @@ public class AppFlappyBird {
             game.actualizar(dt);
 
             // Procesar eventos para partículas
-            for (float[] pos : game.getEventosScore()) {
-                particles.emitirPuntaje(pos[0], pos[1]);
-            }
+            // for (float[] pos : game.getEventosScore()) {
+            //     particles.emitirPuntaje(pos[0], pos[1]);
+            // }
+            
             for (float[] pos : game.getEventosMuerte()) {
                 particles.emitirMuerte(pos[0], pos[1]);
             }
@@ -106,6 +108,7 @@ public class AppFlappyBird {
             pipeRenderer.render(game);
             birdRenderer.render(p1, game.isGameOver());
             birdRenderer.render(p2, game.isGameOver());
+            birdRenderer.render(p3, game.isGameOver());
             particles.render();
             hudRenderer.render(game);
 

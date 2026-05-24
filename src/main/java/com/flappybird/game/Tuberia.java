@@ -12,6 +12,7 @@ public class Tuberia {
     private final float gapCentroY;
     private boolean puntuadaP1; // Puntuada por Jugador 1
     private boolean puntuadaP2; // Puntuada por Jugador 2
+    private boolean puntuadaP3; // Puntuada por Jugador 3
 
     public Tuberia(float x, float gapCentroY) {
         this.x = x;
@@ -34,8 +35,9 @@ public class Tuberia {
      * 2. Si hay overlap horizontal, colisiona si el pájaro está fuera del gap.
      */
     public boolean colisionaCon(Pajaro p) {
-        float birdLeft   = BIRD_X - (BIRD_ANCHO * 0.5f);
-        float birdRight  = BIRD_X + (BIRD_ANCHO * 0.5f);
+        float birdX      = p.getDistanciaPajaros();
+        float birdLeft   = birdX - (BIRD_ANCHO * 0.5f);
+        float birdRight  = birdX + (BIRD_ANCHO * 0.5f);
         float birdBottom = p.getY() - (BIRD_ALTO * 0.5f);
         float birdTop    = p.getY() + (BIRD_ALTO * 0.5f);
         float pipeLeft   = x - (TUBERIA_ANCHO * 0.5f);
@@ -54,8 +56,9 @@ public class Tuberia {
      * @param jugador 1 o 2
      * @return true si la puntuación fue otorgada (primera vez que pasa).
      */
-    public boolean intentarPuntuar(int jugador) {
-        boolean superada = x + (TUBERIA_ANCHO * 0.5f) < BIRD_X;
+    public boolean intentarPuntuar(int jugador, Pajaro p) {
+        float birdX = p.getDistanciaPajaros();
+        boolean superada = x + (TUBERIA_ANCHO * 0.5f) < birdX;
         if (!superada) return false;
 
         if (jugador == 1 && !puntuadaP1) {
@@ -64,6 +67,10 @@ public class Tuberia {
         }
         if (jugador == 2 && !puntuadaP2) {
             puntuadaP2 = true;
+            return true;
+        }
+        if (jugador == 3 && !puntuadaP3) {
+            puntuadaP3 = true;
             return true;
         }
         return false;
